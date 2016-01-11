@@ -17,9 +17,9 @@ class Alexa
         $this->client = new Client();
     }
 
-    public function getSiteRank($uri)
+    public function getSiteStatistics($uri)
     {
-        $result = $this->client->makeGetRequest('data', [
+         $result = $this->client->makeGetRequest('data', [
             'cli' => 10,
             'dat' => 'snbamz',
             'url' => $uri,
@@ -27,32 +27,29 @@ class Alexa
         if (($body = new \SimpleXMLElement($result->getBody()->getContents())) == null) {
             return null;
         }
-        return $body->SD[1]->POPULARITY['TEXT'];
+
+        return [
+            'rank' => (string) $body->SD[1]->POPULARITY['TEXT'],
+            'reach' => (string) $body->SD[1]->REACH['RANK'],
+            'change' => str_replace("+", "", $body->SD[1]->RANK['DELTA']),
+        ];
+    }
+
+    public function getSiteRank($uri)
+    {
+        $body = $this->getSiteStatistics($uri);
+        return $body === null ? null : $body['rank'];
     }
 
     public function getSiteRankReach($uri)
     {
-        $result = $this->client->makeGetRequest('data', [
-            'cli' => 10,
-            'dat' => 'snbamz',
-            'url' => $uri,
-        ]);
-        if (($body = new \SimpleXMLElement($result->getBody()->getContents())) == null) {
-            return null;
-        }
-        return $body->SD[1]->REACH['RANK'];
+        $body = $this->getSiteStatistics($uri);
+        return $body === null ? null : $body['reach'];
     }
 
     public function getSiteRankChange($uri)
     {
-        $result = $this->client->makeGetRequest('data', [
-            'cli' => 10,
-            'dat' => 'snbamz',
-            'url' => $uri,
-        ]);
-        if (($body = new \SimpleXMLElement($result->getBody()->getContents())) == null) {
-            return null;
-        }
-        return str_replace("+", "", $body->SD[1]->RANK['DELTA']);
+        $body = $this->getSiteStatistics($uri);
+        return $body === null ? null : $body['change'];
     }
 }
