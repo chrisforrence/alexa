@@ -1,0 +1,25 @@
+{
+    "name": "cforrence/alexa",
+    "description": "Provides an API wrapper within Alexa's API",
+    "type": "library",
+    "keywords": ["alexa"],
+    "require": {
+        "guzzlehttp/guzzle": "~6.0"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "4.8.*"
+    },
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Chris Forrence",
+            "email": "chrisforrence@gmail.com"
+        }
+    ],
+    "minimum-stability": "stable",
+    "autoload": {
+        "psr-4": {
+            "Forrence\\Libraries\\Alexa\\": "src"
+        }
+    }
+}
