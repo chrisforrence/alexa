@@ -2,7 +2,6 @@
 
 namespace Forrence\Libraries\Alexa;
 
-
 class Alexa
 {
     private $client;
@@ -25,7 +24,20 @@ class Alexa
             'dat' => 'snbamz',
             'url' => $uri,
         ]);
-        if(($body = new \SimpleXMLElement($result->getBody()->getContents())) == null) {
+        if (($body = new \SimpleXMLElement($result->getBody()->getContents())) == null) {
+            return null;
+        }
+        return $body->SD[1]->POPULARITY['TEXT'];
+    }
+
+    public function getSiteRankReach($uri)
+    {
+        $result = $this->client->makeGetRequest('data', [
+            'cli' => 10,
+            'dat' => 'snbamz',
+            'url' => $uri,
+        ]);
+        if (($body = new \SimpleXMLElement($result->getBody()->getContents())) == null) {
             return null;
         }
         return $body->SD[1]->REACH['RANK'];
@@ -38,7 +50,7 @@ class Alexa
             'dat' => 'snbamz',
             'url' => $uri,
         ]);
-        if(($body = new \SimpleXMLElement($result->getBody()->getContents())) == null) {
+        if (($body = new \SimpleXMLElement($result->getBody()->getContents())) == null) {
             return null;
         }
         return str_replace("+", "", $body->SD[1]->RANK['DELTA']);

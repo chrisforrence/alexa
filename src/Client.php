@@ -76,13 +76,12 @@ class Client
         $client = new Guzzle();
         try {
             $result = $client->request($verb, $this->api_uri . $endpoint, $options);
-        } catch(GuzzleHttp\Exception\RequestException $e) {
-echo $e->getRequest();
-    if ($e->hasResponse()) {
-        echo $e->getResponse();
-    }
-        }
-        catch (GuzzleHttp\Exception\ConnectException $e) {
+        } catch (GuzzleHttp\Exception\RequestException $e) {
+            echo $e->getRequest();
+            if ($e->hasResponse()) {
+                echo $e->getResponse();
+            }
+        } catch (GuzzleHttp\Exception\ConnectException $e) {
             echo 'Could not connect';
             $result = null;
         }

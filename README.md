@@ -17,6 +17,9 @@ From your composer.json file, simply add the following:
     $api = new Forrence\Libraries\Alexa\Alexa;
 
     echo $api->getSiteRank('http://www.example.com');
+    // 15418
+
+    echo $api->getSiteRankReach('http://www.example.com');
     // 11482
 
     echo $api->getSiteRankChange('http://www.example.com');
